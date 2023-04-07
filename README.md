@@ -21,7 +21,7 @@ pip install -r requirements.txt
 # Uso
 
 1. Clona o descarga el repositorio a tu máquina local.
-2. Obtén el [Token](https://core.telegram.org/bots/features#botfather) de tu bot de Telegram y reemplaza YOUR_BOT_TOKEN con el token de tu bot en el archivo main.py.
+2. Obtén el [Token](https://core.telegram.org/bots/features#botfather) de tu bot de Telegram y reemplaza "YOUR_BOT_TOKEN" con el token de tu bot en el archivo main.py.
 3. Ejecuta el archivo main.py en tu máquina local.
 4. Abre el chat con tu bot de Telegram y envía el comando /mp3 {enlace} o /mp4 {enlace} seguido del enlace del video o audio de TikTok que deseas descargar. Por ejemplo:
 
