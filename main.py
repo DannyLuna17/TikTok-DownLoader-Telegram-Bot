@@ -38,9 +38,11 @@ def ttDL(link: str, format: str, semaphore: threading.Semaphore) -> any:
         
         # Verificamos que la URL sea válida
         try:
-            if vid.json()["error"] != "":
+            error = vid.json()["error"]
+            if error != "":
                 return "INVALID URL"
-        except: return "INVALID URL"
+        except:
+            return "INVALID URL"
         
         # Obtenemos la información del video o audio
         mp4link = vid.json()["data"]["mp4"]
@@ -64,11 +66,17 @@ def download(update: telegram.Update, context: telegram.ext.CallbackContext) -> 
     
     # Verificamos que el mensaje tenga la estructura correcta
     if text.startswith(("/mp3", "/mp4 ")):
-        try: link = text.split(" ")[1]
-        except: return message.reply_text("You must enter a link.")
-        try:
-            if not "tiktok.com" in get(link, allow_redirects=True).text: return message.reply_text("You must enter a TikTok Valid link.")
-        except: return message.reply_text("You must enter a TikTok Valid link.")
+        try: 
+            link = text.split(" ")[1]
+            if not link:
+                raise IndexError
+        except IndexError:
+            return message.reply_text("You must enter a link.")
+        response = get(link, allow_redirects=True)
+        if response.status_code != 200:
+            return message.reply_text("Error: Could not fetch TikTok link")
+        if not "tiktok.com" in response.text:
+            return message.reply_text("You must enter a TikTok valid link.")
         format = text.split(" ")[0][1:]
         
         # Creamos un semáforo para controlar el número máximo de solicitudes simultáneas
