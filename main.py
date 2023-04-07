@@ -39,10 +39,13 @@ def ttDL(link: str, format: str, semaphore: threading.Semaphore) -> any:
         # Verificamos que la URL sea válida
         try:
             error = vid.json()["error"]
-            if error != "":
-                return "INVALID URL"
-        except:
+        except KeyError:
             return "INVALID URL"
+        except Exception:
+            return "An error occurred while processing the video URL"
+        else:
+            if error:
+                return "INVALID URL"
         
         # Obtenemos la información del video o audio
         mp4link = vid.json()["data"]["mp4"]
